@@ -24,8 +24,27 @@
         No goals have been added yet - please start adding some!
       </p>
       <ul v-else>
-        <li>Goal</li>
+        <li
+          v-for="(goal, index) in goals"
+          :key="goal"
+          @click="removeGoal(index)"
+        >
+          <p>{{ index }} - {{ goal }}</p>
+          <input type="text" @click.stop />
+        </li>
       </ul>
+
+      <!-- <ul>
+        <li
+          v-for="(value, key, index) in {name: 'Patrycja', surname: 'Kalita', age: 25}"
+        >
+          {{ index }} - {{ key }} - {{value}}
+        </li>
+      </ul> -->
+
+      <!-- <ul>
+        <li v-for="number in 7">{{ number }}</li>
+      </ul> -->
     </section>
   </body>
 </html>

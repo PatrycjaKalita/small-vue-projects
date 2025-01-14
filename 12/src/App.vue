@@ -8,6 +8,13 @@
       :info-text="activeUser.description"
       :role="activeUser.role"
     ></user-info>
+    <!-- #default can be put here because in his file there is only one slot -->
+    <CourseGoals #default="againAnyName">
+      <!-- <template #default="againAnyName"> -->
+      <h2>{{ againAnyName.anyname }}</h2>
+      <p>{{ againAnyName.nextProp }}</p>
+      <!-- </template> -->
+    </CourseGoals>
   </div>
 </template>
 
@@ -15,6 +22,7 @@
 import TheHeader from "./components/TheHeader.vue";
 import BadgeList from "./components/BadgeList.vue";
 import UserInfo from "./components/UserInfo.vue";
+import CourseGoals from "./components/CourseGoals.vue";
 
 export default {
   components: {
@@ -22,6 +30,7 @@ export default {
     // 'the-header': TheHeader,
     "user-info": UserInfo,
     "badge-list": BadgeList,
+    CourseGoals,
   },
   data() {
     return {

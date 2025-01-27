@@ -2,12 +2,15 @@
   <section>
     <base-card>
       <h2>How was you learning experience?</h2>
+
       <form @submit.prevent="submitSurvey">
         <div class="form-control">
           <label for="name">Your Name</label>
           <input type="text" id="name" name="name" v-model.trim="enteredName" />
         </div>
+
         <h3>My learning experience was ...</h3>
+
         <div class="form-control">
           <input
             type="radio"
@@ -18,6 +21,7 @@
           />
           <label for="rating-poor">Poor</label>
         </div>
+
         <div class="form-control">
           <input
             type="radio"
@@ -28,6 +32,7 @@
           />
           <label for="rating-average">Average</label>
         </div>
+
         <div class="form-control">
           <input
             type="radio"
@@ -38,9 +43,13 @@
           />
           <label for="rating-great">Great</label>
         </div>
+
         <p v-if="invalidInput">
           One or more input fields are invalid. Please check your provided data.
         </p>
+
+        <p v-if="error">{{ error }}</p>
+
         <div>
           <base-button>Submit</base-button>
         </div>
@@ -56,6 +65,7 @@ export default {
       enteredName: "",
       chosenRating: null,
       invalidInput: false,
+      error: null,
     };
   },
   // emits: ["survey-submit"],
@@ -65,12 +75,15 @@ export default {
         this.invalidInput = true;
         return;
       }
+
       this.invalidInput = false;
 
       // this.$emit("survey-submit", {
       //   userName: this.enteredName,
       //   rating: this.chosenRating,
       // });
+
+      this.error = null;
 
       fetch(
         "https://small-vue-projects-default-rtdb.europe-west1.firebasedatabase.app/surveys.json",
@@ -82,7 +95,19 @@ export default {
           body: JSON.stringify({
             name: this.enteredName,
             rating: this.chosenRating,
-          }),
+          })
+            .then((response) => {
+              if (response.ok) {
+                //...
+              } else {
+                throw new Error("Could not save data.");
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+
+              this.error = "Something went wrong! Try Again!";
+            }),
         }
       );
 

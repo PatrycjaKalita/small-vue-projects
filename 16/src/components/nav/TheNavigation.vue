@@ -6,7 +6,7 @@
           <router-link to="/teams">Teams</router-link>
         </li>
         <li>
-          <router-link to="users">Users</router-link>
+          <router-link to="/users">Users</router-link>
         </li>
       </ul>
     </nav>
@@ -40,7 +40,6 @@ li {
 
 a {
   text-decoration: none;
-  font: inherit;
   background: transparent;
   border: 1px solid transparent;
   cursor: pointer;

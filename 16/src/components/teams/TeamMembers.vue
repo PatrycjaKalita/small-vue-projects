@@ -46,6 +46,13 @@ export default {
     // this.$route.path // /teams/t1
     this.loadTeamMembers(this.teamId);
   },
+  beforeRouteUpdate(to, from, next) {
+    console.log("BeforeRouteUpdate in TeamMembers");
+    console.log(to, from);
+
+    //this.loadTeamMembers(to.params.teamId);
+    next();
+  },
   watch: {
     teamId(newId) {
       this.loadTeamMembers(newId);

@@ -5,13 +5,13 @@
   </div>
 
   <div class="container">
-    <transition>
+    <transition name="para">
       <p v-if="paraIsVisible">Do you see me?</p>
     </transition>
     <button @click="toggleParagraph">Toggle Paragraph</button>
   </div>
 
-  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+  <base-modal @close="hideDialog" :open="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
   </base-modal>
@@ -99,6 +99,60 @@ button:active {
 .animate {
   /* transform: translateX(-150px); */
   animation: slide-fade 0.3s ease-out forwards;
+}
+
+/* First version 
+v-enter and v-leave is default class for <transition>*/
+/* .v-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.v-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.v-enter-active {
+  transition: all 0.3s ease-out;
+} */
+
+/* Second version */
+/* .v-enter-active,
+.para-enter-active {
+  animation: slide-fade 0.3s ease-out;
+} */
+
+/* Animation for first click 
+ Classes can custom named,
+ this classes need to be defined in <transition>*/
+.para-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.para-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.para-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+/* Animation for second click */
+.para-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.para-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.para-leave-active {
+  transition: all 0.3s ease-in;
 }
 
 @keyframes slide-fade {

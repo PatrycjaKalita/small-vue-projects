@@ -5,10 +5,25 @@
   </div>
 
   <div class="container">
-    <transition name="para">
+    <transition
+      name="para"
+      @before-enter="beforeEnter"
+      @before-leave="beforeLeave"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @leave="leave"
+      @after-leave="afterLeave"
+    >
       <p v-if="paraIsVisible">Do you see me?</p>
     </transition>
     <button @click="toggleParagraph">Toggle Paragraph</button>
+  </div>
+
+  <div class="container">
+    <transition name="fade" mode="out-in">
+      <button @click="showUser" v-if="!usersAreVisible">Show Users</button>
+      <button @click="hideUser" v-else>Hide Users</button>
+    </transition>
   </div>
 
   <base-modal @close="hideDialog" :open="dialogIsVisible">
@@ -28,6 +43,7 @@ export default {
       dialogIsVisible: false,
       animatedBlock: false,
       paraIsVisible: false,
+      usersAreVisible: false,
     };
   },
   methods: {
@@ -42,6 +58,30 @@ export default {
     },
     toggleParagraph() {
       this.paraIsVisible = !this.paraIsVisible;
+    },
+    showUser() {
+      this.usersAreVisible = true;
+    },
+    hideUser() {
+      this.usersAreVisible = false;
+    },
+    beforeEnter(el) {
+      console.log("beforeEnter " + el);
+    },
+    beforeLeave(el) {
+      console.log("beforeLeave " + el);
+    },
+    enter(el) {
+      console.log("enter " + el);
+    },
+    afterEnter(el) {
+      console.log("afterEnter " + el);
+    },
+    leave(el) {
+      console.log("leave " + el);
+    },
+    afterLeave(el) {
+      console.log("afterLeave " + el);
     },
   },
 };
@@ -137,7 +177,7 @@ v-enter and v-leave is default class for <transition>*/
 }
 
 .para-enter-active {
-  transition: all 0.3s ease-out;
+  transition: all 0.5s ease-out;
 }
 
 /* Animation for second click */
@@ -152,7 +192,25 @@ v-enter and v-leave is default class for <transition>*/
 }
 
 .para-leave-active {
-  transition: all 0.3s ease-in;
+  transition: all 0.5s ease-in;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.fade-eave-active {
+  transition: opacity 0.3s ease-in;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
 }
 
 @keyframes slide-fade {

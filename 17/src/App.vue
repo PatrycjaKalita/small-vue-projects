@@ -5,6 +5,13 @@
   </div>
 
   <div class="container">
+    <transition name="parag">
+      <p v-if="paragIsVisible">Do you see me? hello?</p>
+    </transition>
+    <button @click="toggleParag">Toggle Parag</button>
+  </div>
+
+  <div class="container">
     <transition
       name="para"
       @before-enter="beforeEnter"
@@ -13,6 +20,8 @@
       @after-enter="afterEnter"
       @leave="leave"
       @after-leave="afterLeave"
+      @enter-cancelled="enterCancelled"
+      @leave-cancelled="leaveCancelled"
     >
       <p v-if="paraIsVisible">Do you see me?</p>
     </transition>
@@ -43,7 +52,10 @@ export default {
       dialogIsVisible: false,
       animatedBlock: false,
       paraIsVisible: false,
+      paragIsVisible: false,
       usersAreVisible: false,
+      enterInterval: null,
+      leaveInterval: null,
     };
   },
   methods: {
@@ -59,6 +71,9 @@ export default {
     toggleParagraph() {
       this.paraIsVisible = !this.paraIsVisible;
     },
+    toggleParag() {
+      this.paragIsVisible = !this.paragIsVisible;
+    },
     showUser() {
       this.usersAreVisible = true;
     },
@@ -67,21 +82,53 @@ export default {
     },
     beforeEnter(el) {
       console.log("beforeEnter " + el);
+      el.style.opacity = 0;
     },
-    beforeLeave(el) {
-      console.log("beforeLeave " + el);
-    },
-    enter(el) {
+    enter(el, done) {
       console.log("enter " + el);
+      let round = 1;
+
+      this.enterInterval = setInterval(() => {
+        el.style.opacity = round * 0.01;
+        round++;
+
+        if (round > 100) {
+          clearInterval(this.enterInterval);
+          done();
+        }
+      }, 20);
     },
     afterEnter(el) {
       console.log("afterEnter " + el);
     },
-    leave(el) {
+    beforeLeave(el) {
+      console.log("beforeLeave " + el);
+      el.style.opacity = 1;
+    },
+    leave(el, done) {
       console.log("leave " + el);
+      let round = 1;
+
+      this.leaveInterval = setInterval(() => {
+        el.style.opacity = 1 - round * 0.01;
+        round++;
+
+        if (round > 100) {
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      }, 20);
     },
     afterLeave(el) {
       console.log("afterLeave " + el);
+    },
+    enterCancelled(el) {
+      console.log("enterCancelled " + el);
+      clearInterval(this.enterInterval);
+    },
+    leaveCancelled(el) {
+      console.log("leaveCancelled " + el);
+      clearInterval(this.leaveInterval);
     },
   },
 };
@@ -166,32 +213,32 @@ v-enter and v-leave is default class for <transition>*/
 /* Animation for first click 
  Classes can custom named,
  this classes need to be defined in <transition>*/
-.para-enter-from {
+.parag-enter-from {
   opacity: 0;
   transform: translateY(-30px);
 }
 
-.para-enter-to {
+.parag-enter-to {
   opacity: 1;
   transform: translateY(0);
 }
 
-.para-enter-active {
+.parag-enter-active {
   transition: all 0.5s ease-out;
 }
 
 /* Animation for second click */
-.para-leave-from {
+.parag-leave-from {
   opacity: 1;
   transform: translateY(0);
 }
 
-.para-leave-to {
+.parag-leave-to {
   opacity: 0;
   transform: translateY(-30px);
 }
 
-.para-leave-active {
+.parag-leave-active {
   transition: all 0.5s ease-in;
 }
 

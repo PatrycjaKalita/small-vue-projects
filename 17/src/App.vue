@@ -1,4 +1,14 @@
 <template>
+  <router-view v-slot="slotProps">
+    <transition name="fade" mode="out-in">
+      <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
+
+  <div class="container">
+    <users-list></users-list>
+  </div>
+
   <div class="container">
     <div class="block" :class="{ animate: animatedBlock }"></div>
     <button @click="animateBlock">Animate</button>
@@ -13,6 +23,7 @@
 
   <div class="container">
     <transition
+      :css="false"
       name="para"
       @before-enter="beforeEnter"
       @before-leave="beforeLeave"
@@ -46,7 +57,12 @@
 </template>
 
 <script>
+import UsersList from "./components/UsersList.vue";
+
 export default {
+  components: {
+    UsersList,
+  },
   data() {
     return {
       dialogIsVisible: false,
@@ -117,7 +133,7 @@ export default {
           clearInterval(this.leaveInterval);
           done();
         }
-      }, 20);
+      }, 1);
     },
     afterLeave(el) {
       console.log("afterLeave " + el);
@@ -248,11 +264,11 @@ v-enter and v-leave is default class for <transition>*/
 }
 
 .fade-enter-active {
-  transition: opacity 0.3s ease-out;
+  transition: opacity 0.8s ease-out;
 }
 
 .fade-eave-active {
-  transition: opacity 0.3s ease-in;
+  transition: opacity 0.8s ease-in;
 }
 
 .fade-enter-to,

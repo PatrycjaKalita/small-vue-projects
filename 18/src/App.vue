@@ -29,7 +29,7 @@ export default {
     add() {
       // this.$store.state.counter++;
       // this.$store.commit('increase', { value: 1 });
-      this.$store.commit({
+      this.$store.dispatch({
         type: "increase",
         value: 1,
       });

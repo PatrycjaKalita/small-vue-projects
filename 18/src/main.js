@@ -22,7 +22,7 @@ const store = createStore({
       return state.counter * 2;
     },
     normalizedCounter(_, getters) {
-      const finalCounter = getters.counter * 2;
+      const finalCounter = getters.finalCounter * 2; //state.counter
 
       if (finalCounter < 0) {
         return 0;
@@ -33,6 +33,16 @@ const store = createStore({
       }
 
       return finalCounter;
+    },
+  },
+  actions: {
+    increment(context) {
+      setTimeout(function () {
+        context.commit("increment");
+      }, 2000);
+    },
+    increase(context, payload) {
+      context.commit("increase", payload);
     },
   },
 });

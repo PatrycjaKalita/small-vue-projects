@@ -1,4 +1,5 @@
 <template>
+  <p>* 2 =</p>
   <h3>{{ counter }}</h3>
   <p>Here something is more...</p>
 </template>

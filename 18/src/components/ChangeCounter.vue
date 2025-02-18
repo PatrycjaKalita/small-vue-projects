@@ -1,6 +1,6 @@
 <template>
   <!-- <button @click="add">+ 2</button> -->
-  <button @click="increment">+ 2</button>
+  <button @click="increment">+ 6</button>
   <button @click="increase({ value: 2 })">+ 4</button>
 </template>
 
